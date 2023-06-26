@@ -1,0 +1,103 @@
+{% extends 'index.html' %}
+{% block content %}
+<br></br>
+<center>ORDERS PLACED</center>
+<br>
+		<table class = "table table-striped table-bordered" >
+			<thead class = "table-dark">
+				<tr>
+					<th> # id </th>
+					<th> Name</th>				
+					<th>Selling Price</th>
+                    <th>Quantity Ordered</th>
+                   
+                    <th> Transaction Amount</th>
+                    <th> Action </th>
+				</tr>
+			</thead>
+			
+			<tbody>
+                {% for transaction in transactions %}
+				<tr>
+					<td>{{transaction.id}}</td>
+
+                    <td>{{transaction.item_name}} </td>
+
+                    <td>$ {{transaction.item_selling_price}}</td>
+
+                    <td>{{transaction.number_of_items}}</td>
+
+                    <td>$ {{transaction.transaction_amount}}</td>
+
+
+
+					<td style="display: flex">
+                     <form method="post" action="/orders_placed">
+						{% csrf_token %}
+						<input type="hidden" name="btn_type" value="received_order">
+						<input type="hidden" name="transaction_id" value="{{transaction.id}}">
+						<input type="hidden" name="item_name" value="{{transaction.item_name}}">
+						<input type="hidden" name="item_selling_price" value="{{transaction.item_selling_price}}">
+						<input type="hidden" name="amount" value="{{transaction.transaction_amount}}">
+						<input type="hidden" name="quantity" value="{{transaction.number_of_items}}">
+						<button id="{{transaction.item_id}}" style="margin: 4px ;" type="submit" class="btn btn-primary" data-toggle="modal" data-target="#order_received">
+							Received 
+						</button>
+					 </form>
+
+						
+						<button id="{{transaction.item_id}}" style="margin: 4px ;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#cancel_order_{{transaction.id}}" value="{{item.id}}">
+							Cancel
+						</button>
+					 		
+						  
+					</td>
+
+				</tr>
+
+				
+
+
+				<div class="modal fade" id="cancel_order_{{transaction.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered" role="document">
+					  <div class="modal-content">
+						<div class="modal-header">
+						  <h5 class="modal-title" id="exampleModalLongTitle"> Confirm Cancellation</h5>
+						  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						  </button>
+						</div>
+						<form method="POST">
+						<div class="modal-body">	
+						    
+							{% csrf_token %}
+                            <h6>Are you sure to cancel {{transaction.item_name}}?</h6>
+							<input type="hidden" name="btn_type" value="cancel_order">
+                            <input type="hidden" name="transaction_id" value="{{transaction.id}}">
+                            <input type="hidden" name="item_name" value="{{transaction.item_name}}">
+                            <input type="hidden" name="item_selling_price" value="{{transaction.item_selling_price}}">
+				            <input type="hidden" name="amount" value="{{transaction.transaction_amount}}">
+                            <input type="hidden" name="quantity" value="{{transaction.number_of_items}}">
+						</div>
+						<div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Yes</button>
+						  <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+						  
+						</div>
+						</form>
+					  </div>
+					</div>
+				</div>
+
+
+
+			
+
+                {% endfor %}
+			</tbody>
+		
+		</table>
+
+		
+	
+{% endblock %}

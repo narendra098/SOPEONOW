@@ -1,0 +1,16 @@
+{% extends 'index.html' %}
+{% block content %}
+<center style="margin: 20px;">ORDER NEW ITEM PAGE</center>
+
+<div class="form-group", style="width: 280px; margin-left: 40%;">
+<form action="" method="post">
+  <input type="hidden" name="form_type" value="sell">
+  {% csrf_token %}
+  {{form}}
+    <br>
+    <button type="submit" class="btn btn-primary" style="margin-left: 10px;">Add Item</button>
+    
+  </form>
+</div>
+
+{% endblock %}

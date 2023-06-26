@@ -1,0 +1,191 @@
+{% extends 'index.html' %}
+{% block content %}
+<br></br>
+<center>ITEMS-LIST PAGE</center>
+<br>
+		<table class = "table table-striped table-bordered" >
+			<thead class = "table-dark">
+				<tr>
+					<th> # id </th>
+					<th> Name</th>
+					<th> Cost </th>
+					
+					<th>Selling Price</th>
+					
+                    <th> Action </th>
+				</tr>
+			</thead>
+			
+			<tbody>
+                {% for item in items %}
+				<tr>
+					<td>{{item.id}}</td>
+
+                    <td>{{item.name}} </td>
+
+                    <td>$ {{item.cost}}</td>
+
+                   
+
+					<td>$ {{item.selling_price}}</td>
+
+
+
+					<td style="display: flex">
+
+						<button id="{{item.item_id}}" style="margin: 4px ;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#view_item_{{item.id}}">
+							View
+						</button>
+
+						
+						<button id="{{item.item_id}}" style="margin: 4px ;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit_item_{{item.id}}" value="{{item.id}}">
+							Edit
+						</button>
+						
+
+					
+
+                        <button style="margin: 4px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#sell_item_{{item.id}}">
+							sell
+						  </button>
+						  
+					</td>
+
+				</tr>
+
+				<div class="modal fade" id="view_item_{{item.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered" role="document">
+					  <div class="modal-content">
+						<div class="modal-header">
+						  <h5 class="modal-title" id="exampleModalLongTitle"> Viewing {{item.name}}</h5>
+						  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						  </button>
+						</div>
+					
+						<div class="modal-body">	
+						    
+							
+							<input type="hidden" name="form_type" value="edit_item_form">
+							<h6>Id</h6>
+							<input class="form-control" type="text" name="edit_item_id" value="{{item.id}}" readonly>
+							<br>
+							<h6>Name</h6>
+							<input class="form-control" type="text" name="item_name" value="{{item.name}}" readonly>
+							<br>
+							<h6>cost</h6>
+							<input class="form-control" type="text" name="item_cost" value="{{item.cost}}" readonly>
+							<br>
+							<h6>Quantity</h6>
+							<input class="form-control" type="text" name="item_quantity" value="{{item.quantity}}" readonly>
+							<br>
+							<h6>quantity sold</h6>
+							<input class="form-control" type="text" name="quantity_sold" value="{{item.quantity_sold}}" readonly>
+							<br>
+							<h6>selling price</h6>
+							<input class="form-control" type="text" name="selling_price" value="{{item.selling_price}}" readonly>
+							
+							
+						</div>
+						<div class="modal-footer">
+						  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						 
+						</div>
+						</form>
+					  </div>
+					</div>
+				</div>
+
+
+
+
+
+
+				<div class="modal fade" id="edit_item_{{item.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered" role="document">
+					  <div class="modal-content">
+						<div class="modal-header">
+						  <h5 class="modal-title" id="exampleModalLongTitle"> Editing {{item.name}}</h5>
+						  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						  </button>
+						</div>
+						<form method="POST">
+						<div class="modal-body">	
+						    
+							{% csrf_token %}
+							<input type="hidden" name="form_type" value="edit_item_form">
+							<h6>Id</h6>
+							<input class="form-control" type="text" name="edit_item_id" value="{{item.id}}" readonly>
+							<br>
+							<h6>Name</h6>
+							<input class="form-control" type="text" name="item_name" value="{{item.name}}">
+							<br>
+							<h6>cost</h6>
+							<input class="form-control" type="text" name="item_cost" value="{{item.cost}}">
+							<br>
+							<h6>Quantity</h6>
+							<input class="form-control" type="text" name="item_quantity" value="{{item.quantity}}">
+							<br>
+							<h6>quantity sold</h6>
+							<input class="form-control" type="text" name="quantity_sold" value="{{item.quantity_sold}}">
+							<br>
+							<h6>selling price</h6>
+							<input class="form-control" type="text" name="selling_price" value="{{item.selling_price}}">
+							
+							
+						</div>
+						<div class="modal-footer">
+						  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						  <button type="submit" class="btn btn-primary">Save</button>
+						</div>
+						</form>
+					  </div>
+					</div>
+				</div>
+
+
+
+				<div class="modal fade" id="sell_item_{{item.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered" role="document">
+					  <div class="modal-content">
+						<div class="modal-header">
+						  <h5 class="modal-title" id="exampleModalLongTitle">Selling {{item.name}}</h5>
+						  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						  </button>
+						</div>
+						<form method="POST">
+						<div class="modal-body">	
+						    
+							{% csrf_token %}
+							<input type="hidden" name="form_type" value="sell_item_form">
+							<h6>Id</h6>
+							<input class="form-control" type="text" name="sell_item_id" value="{{item.id}}" readonly>
+							<br>
+							<h6>transaction type</h6>
+							<input class="form-control" type="text" name="transaction_type" value="sell" readonly>
+							<br>
+							<h6>number of products to sell</h6>
+							<input class="form-control" type="text" placeholder="Enter number of products to sell" name="number_of_items">
+							
+							
+						</div>
+						<div class="modal-footer">
+						  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						  <button type="submit" class="btn btn-primary">Sell</button>
+						</div>
+						</form>
+					  </div>
+					</div>
+				</div>
+
+
+                {% endfor %}
+			</tbody>
+		
+		</table>
+
+		
+	
+{% endblock %}
