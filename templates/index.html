@@ -146,9 +146,21 @@
                 <div data-i18n="Tables">Cancelled</div>
               </a>
             </li>
-     
-       
+           
+            <li class="menu-header small text-uppercase">
+              <span class="menu-header-text">TRANSACTIONS</span>
+            </li>
+
+            <li class="menu-item">
+              <a href="{% url 'show_transactions' %}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-dollar-circle"></i>
+                <div data-i18n="Tables">transactions</div>
+              </a>
+            </li>
+
           </ul>
+
+         
         </aside>
         <!-- / Menu -->
 
@@ -339,10 +351,10 @@
                          
                           </div>
                         </div>
-                        <div id="growthChart"></div>
+                      <div id="growthChart"></div>
                         <div class="text-center fw-semibold pt-3 mb-2">62% Company Growth</div>
 
-                        <div class="d-flex px-xxl-4 px-lg-2 p-4 gap-xxl-3 gap-lg-1 gap-3 justify-content-between">
+                         <div class="d-flex px-xxl-4 px-lg-2 p-4 gap-xxl-3 gap-lg-1 gap-3 justify-content-between">
                           <div class="d-flex">
                             <div class="me-2">
                               <span class="badge bg-label-primary p-2"><i class="bx bx-dollar text-primary"></i></span>
@@ -363,6 +375,8 @@
                           </div>
                         </div>
                       </div>
+
+                      
                     </div>
                   </div>
                 </div>
@@ -394,9 +408,9 @@
                             </div>
                            
                           </div>
-                          <span class="fw-semibold d-block mb-1">Costly Item</span>
-                          <h5 class="card-title mb-2"> {{costly_item.name}}</h5>
-                          <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> $ {{costly_item.cost}}</small>
+                          <span class="fw-semibold d-block mb-1">Costly Item:</span>
+                          <h5 class="card-title mb-2"> {{costly_item.item_name}}</h5>
+                          <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> $ {{costly_item.item_cost}}</small>
                         </div>
                       </div>
                     </div>
@@ -525,24 +539,15 @@
                     </tr>
                   </thead>
                   <tbody>
+                    {% for item in item_stock_alert %}
                     <tr>
-                      <th scope="row">1</th>
-                      <td style="text-align: center;">Iphone</td>
-                      <td style="text-align: center;">30</td>
-                      <td style="text-align: center;"><span style="background-image:none;background-color:rgba(0, 0, 0, 0);border-color:rgb(114, 0, 0);color:rgb(207, 63, 59);border:1px solid rgb(114, 0, 0);font-weight:600;border-radius:4px;display:inline-block;font-size:10.5px;line-height:10.5px;padding:2.625px 4.2px;text-align:center;vertical-align:baseline;white-space:nowrap;box-sizing:border-box;">45</span></td>
+                      <th scope="row">{{item.item_id}}</th>
+                      <td style="text-align: center;">{{item.item_name}}</td>
+                      <td style="text-align: center;">{{item.item_quantity_left}}</td>
+                      <td style="text-align: center;"><span style="background-image:none;background-color:rgba(0, 0, 0, 0);border-color:rgb(114, 0, 0);color:rgb(207, 63, 59);border:1px solid rgb(114, 0, 0);font-weight:600;border-radius:4px;display:inline-block;font-size:10.5px;line-height:10.5px;padding:2.625px 4.2px;text-align:center;vertical-align:baseline;white-space:nowrap;box-sizing:border-box;">{{item.item_stock_alert}}</span></td>
                     </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td style="text-align: center;">Samsung Tv</td>
-                      <td style="text-align: center;">28</td>
-                      <td style="text-align: center;"><span style="background-image:none;background-color:rgba(0, 0, 0, 0);border-color:rgb(114, 0, 0);color:rgb(207, 63, 59);border:1px solid rgb(114, 0, 0);font-weight:600;border-radius:4px;display:inline-block;font-size:10.5px;line-height:10.5px;padding:2.625px 4.2px;text-align:center;vertical-align:baseline;white-space:nowrap;box-sizing:border-box;">30</span></td>
-                    </tr>
-                    <tr>
-                      <th scope="row">3</th>
-                      <td style="text-align: center;">Laptop</td>
-                      <td style="text-align: center;">10</td>
-                      <td style="text-align: center;"><span style="background-image:none;background-color:rgba(0, 0, 0, 0);border-color:rgb(114, 0, 0);color:rgb(207, 63, 59);border:1px solid rgb(114, 0, 0);font-weight:600;border-radius:4px;display:inline-block;font-size:10.5px;line-height:10.5px;padding:2.625px 4.2px;text-align:center;vertical-align:baseline;white-space:nowrap;box-sizing:border-box;">50</span></td>
-                    </tr>
+                    {% endfor %}
+  
                   </tbody>
                 </table> 
             </div>

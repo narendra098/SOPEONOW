@@ -1,82 +1,46 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from . models import Item
-from .forms import ItemForm
+from . forms import *
 from transactions.models import Transaction
-from decimal import Decimal
+
+
+
 
 # Create your views here.
 
-finance = {'profit':0, 'revenue':0}
+
 
 def item_list(request):
     
     items = Item.objects.all()        
-    context = {'items':items, 'form':None} 
-    
-    
-    if request.method == 'POST':
-      
-        if request.POST.get('form_type') == 'sell_item_form':
-            
-            transaction = Transaction()
-            item_id = request.POST['sell_item_id']
-            item = Item.objects.get(id=item_id)
-            transaction.item_id = item_id
-            transaction.item_name = item.name
-            transaction.item_selling_price = item.selling_price
-            transaction.number_of_items = Decimal(request.POST['number_of_items'])
-            transaction.transaction_amount = Decimal(item.selling_price)*(transaction.number_of_items)
-            transaction.transaction_type = request.POST['transaction_type']
-            transaction.save()
-            item.quantity = item.quantity - transaction.number_of_items
-        
-            item.quantity_sold += transaction.number_of_items
-            item.save()
-
-        elif request.POST.get('form_type') == 'edit_item_form':
-            
-            item_id = request.POST['edit_item_id']
-            item = Item.objects.get(id = item_id)
-            form = ItemForm(request.POST, instance=item)
-            print(context)
-            context['form'] = form
-            
-            item.name = request.POST['item_name']
-            item.cost = request.POST['item_cost']
-            item.quantity = request.POST['item_quantity']
-            item.quantity_sold = request.POST['quantity_sold']
-            item.selling_price = request.POST['selling_price']
-            item.save()
-
-     
-   
-    
-    
-    return render(request, 'items-list.html', context)
+    context = {'items':items} 
+ 
+    return render(request, 'items-list.html', context) 
 
 
 
 def create_new_item(request):
-    form = ItemForm(request.POST or None)
+    form = CreateNewItemForm(request.POST or None)
+
     if form.is_valid():
 
-        item = form.save()
-        print(form.cleaned_data)
-       
-
-        item_id = item.id
-        item_name = item.name
-        item_quantity = item.quantity
-        item_selling_price = item.selling_price
+        order = form.save()
+      
+        order_id = order.id
+        item_name = order.item_name
+        item_cost = order.item_cost
+        item_quantity = order.item_quantity
+        item_selling_price = order.item_selling_price
         amount = item_quantity*item_selling_price
         
+        
         transaction = Transaction(
-                        item_id=item_id, 
+                        item_id=order_id, 
                         item_name=item_name, 
-                        item_selling_price=item_selling_price, 
-                        number_of_items = item_quantity,
+                        item_cost = item_cost, 
+                        item_quantity = item_quantity,
                         transaction_amount = amount, 
-                        transaction_type = 'buy'
+                        transaction_type = 'received'
                         )
         
         transaction.save()
@@ -89,4 +53,86 @@ def create_new_item(request):
     context = {'form':form}
 
     return render(request,'create-new-item.html', context)
+
+
+
+def edit_item(request, item_id):
+  
+    item = Item.objects.get(item_id=item_id)
+    
+    form = EditItemForm(instance=item)  
+
+ 
+    context = {'form':form, 'error':''}
+
+    
+ 
+    if request.method == 'POST':
+
+        
+
+        form = EditItemForm(request.POST, instance=item)
+    
+        if form.is_valid():
+            form.save()
+            return redirect('/item-list')
+        else:
+            print(form.errors) 
+            
+            context['error'] = form.errors
+    
+    return render(request, 'edit_item.html', context)
+
+
+
+def OrderItem(request, item_id):
+
+    item = Item.objects.get(item_id=item_id)
+
+    form = OrderItemForm(instance=item)
+
+    context = {'form':form}
+
+    if request.method =='POST':
+        
+        form = OrderItemForm(request.POST, instance=item)
+
+        if form.is_valid():
+            order_item_quantity = form.cleaned_data['order_item_quantity']
+            item.item_quantity_left += order_item_quantity
+            item.save()
+            form.save()
+            return redirect('/item-list')
+    
+
+
+    return render(request, 'order_item.html', context)
+
+
+def SellItem(request, item_id):
+    item = Item.objects.get(item_id=item_id)
+
+    if request.method == 'POST':
+        form = SellItemForm(request.POST)
+
+        if form.is_valid():
+            item_quantity_selling = form.cleaned_data['item_quantity_selling']
+            
+            if item_quantity_selling <= item.item_quantity_left:
+                item.item_quantity_left -= item_quantity_selling
+                item.save()
+                return redirect('/item-list')
+                
+            else:
+                form.add_error('item_quantity_selling', "Quantity selling cannot be greater than available quantity.")
+    else:
+        form = SellItemForm(initial={
+            'item_id': item.item_id,
+            'item_name': item.item_name,
+            'item_quantity_left': item.item_quantity_left,
+        })
+
+    context = {'form': form}
+    return render(request, 'sell-item.html', context)
+  
 

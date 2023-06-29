@@ -1,11 +1,12 @@
 {% extends 'index.html' %}
 {% block content %}
 <br>
-<center>SELL ITEM</center>
+<center>Edit Item</center>
 <br>
 <div class="form-group", style="width: 280px; margin-left: 40%;"></div>
-{{error}}
+
 <form method="post" action="" style="width: 280px;margin-left: 35%; margin-top: 20px;">
+    {{error}}
     {% csrf_token %}
     {{form}}
 <button type="submit" class="btn btn-primary" style="margin-left: 10px;">Save</button>

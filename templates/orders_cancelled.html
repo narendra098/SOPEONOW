@@ -8,7 +8,7 @@
 				<tr>
 					<th> # id </th>
 					<th> Name</th>				
-					<th>Selling Price</th>
+					<th>Cost Price</th>
                     <th>Quantity Ordered</th>
                     <th> Transaction Amount</th>
                  
@@ -18,16 +18,16 @@
 			<tbody>
                 {% for order in orders_cancelled %}
 				<tr>
-					<td>{{order.id}}</td>
+					<td>{{order.item_id}}</td>
 
                     <td>{{order.item_name}} </td>
 
-                    <td>$ {{order.item_selling_price}}</td>
+                    <td>$ {{order.item_cost}}</td>
 
-                    <td>{{order.quantity}}</td>
+                    <td>{{order.item_quantity}}</td>
 
 
-                    <td>$ {{order.txn_amount}}</td>
+                    <td>$ {{order.transaction_amount}}</td>
 
 
 				</tr>

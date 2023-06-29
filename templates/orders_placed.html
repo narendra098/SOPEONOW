@@ -8,26 +8,25 @@
 				<tr>
 					<th> # id </th>
 					<th> Name</th>				
+					<th>Cost Price</th>
 					<th>Selling Price</th>
                     <th>Quantity Ordered</th>
-                   
-                    <th> Transaction Amount</th>
                     <th> Action </th>
 				</tr>
 			</thead>
 			
 			<tbody>
-                {% for transaction in transactions %}
+                {% for order in orders %}
 				<tr>
-					<td>{{transaction.id}}</td>
+					<td>{{order.id}}</td>
 
-                    <td>{{transaction.item_name}} </td>
+                    <td>{{order.item_name}} </td>
 
-                    <td>$ {{transaction.item_selling_price}}</td>
+					<td>{{order.item_cost}}</td>
 
-                    <td>{{transaction.number_of_items}}</td>
+                    <td>$ {{order.item_selling_price}}</td>
 
-                    <td>$ {{transaction.transaction_amount}}</td>
+                    <td>{{order.item_quantity}}</td>
 
 
 
@@ -35,18 +34,18 @@
                      <form method="post" action="/orders_placed">
 						{% csrf_token %}
 						<input type="hidden" name="btn_type" value="received_order">
-						<input type="hidden" name="transaction_id" value="{{transaction.id}}">
-						<input type="hidden" name="item_name" value="{{transaction.item_name}}">
-						<input type="hidden" name="item_selling_price" value="{{transaction.item_selling_price}}">
-						<input type="hidden" name="amount" value="{{transaction.transaction_amount}}">
-						<input type="hidden" name="quantity" value="{{transaction.number_of_items}}">
-						<button id="{{transaction.item_id}}" style="margin: 4px ;" type="submit" class="btn btn-primary" data-toggle="modal" data-target="#order_received">
+						<input type="hidden" name="order_id" value="{{order.id}}">
+						<input type="hidden" name="item_name" value="{{order.item_name}}">
+						<input type="hidden" name="item_cost" value="{{order.item_cost}}">
+						<input type="hidden" name="item_selling_price" value="{{order.item_selling_price}}">
+						<input type="hidden" name="quantity" value="{{order.item_quantity}}">
+						<button id="{{order.id}}" style="margin: 4px ;" type="submit" class="btn btn-primary" data-toggle="modal" data-target="#order_received">
 							Received 
 						</button>
 					 </form>
 
 						
-						<button id="{{transaction.item_id}}" style="margin: 4px ;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#cancel_order_{{transaction.id}}" value="{{item.id}}">
+						<button id="{{order.order_id}}" style="margin: 4px ;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#cancel_order_{{order.id}}" value="{{order.id}}">
 							Cancel
 						</button>
 					 		
@@ -58,7 +57,7 @@
 				
 
 
-				<div class="modal fade" id="cancel_order_{{transaction.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+				<div class="modal fade" id="cancel_order_{{order.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered" role="document">
 					  <div class="modal-content">
 						<div class="modal-header">
@@ -71,13 +70,15 @@
 						<div class="modal-body">	
 						    
 							{% csrf_token %}
-                            <h6>Are you sure to cancel {{transaction.item_name}}?</h6>
+                            <h5>Are you sure to cancel {{order.item_name}}?</h5>
 							<input type="hidden" name="btn_type" value="cancel_order">
-                            <input type="hidden" name="transaction_id" value="{{transaction.id}}">
-                            <input type="hidden" name="item_name" value="{{transaction.item_name}}">
-                            <input type="hidden" name="item_selling_price" value="{{transaction.item_selling_price}}">
-				            <input type="hidden" name="amount" value="{{transaction.transaction_amount}}">
-                            <input type="hidden" name="quantity" value="{{transaction.number_of_items}}">
+                            <input type="hidden" name="order_id" value="{{order.id}}">
+                            <input type="hidden" name="item_name" value="{{order.item_name}}">
+							<input type="hidden" name="item_cost" value="{{order.item_cost}}">
+							<input type="hidden" name="quantity" value="{{order.item_quantity}}">
+                            <input type="hidden" name="item_selling_price" value="{{order.item_selling_price}}">
+				            
+                           
 						</div>
 						<div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Yes</button>
