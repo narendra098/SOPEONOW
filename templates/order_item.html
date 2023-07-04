@@ -1,15 +1,35 @@
 {% extends 'index.html' %}
 {% block content %}
 <br>
-<center>Edit Item</center>
+<center>Order Item</center>
 <br>
-<div class="form-group", style="width: 280px; margin-left: 40%;"></div>
 
-<form method="post" action="" style="width: 280px;margin-left: 35%; margin-top: 20px;">
+
+<form method="post" style="width: 280px; margin-left: 40%;">
     {% csrf_token %}
-    {{form}}
-<button type="submit" class="btn btn-primary" style="margin-left: 10px;">Save</button>
-</form>
-</div>
+    
+
+    <div class="form-group"  >
+      <label for="{{ form.id.id_for_label }}">Item ID</label>
+      {{ form.id }}
+    </div>
+    
+  
+    <div class="form-group">
+      <label for="{{ form.item_name.id_for_label }}">Item Name</label>
+      {{ form.item_name }}
+    </div>
+    
+
+    <div class="form-group">
+      <label for="{{ form.order_item_quantity.id_for_label }}">Order Item Quantity</label>
+      {{ form.order_item_quantity }}
+    </div>
+    
+   
+    <button type="submit" class="btn btn-primary">Order</button>
+    
+  </form>
+  
 
 {% endblock %}

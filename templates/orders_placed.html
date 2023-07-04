@@ -9,7 +9,6 @@
 					<th> # id </th>
 					<th> Name</th>				
 					<th>Cost Price</th>
-					<th>Selling Price</th>
                     <th>Quantity Ordered</th>
                     <th> Action </th>
 				</tr>
@@ -22,9 +21,7 @@
 
                     <td>{{order.item_name}} </td>
 
-					<td>{{order.item_cost}}</td>
-
-                    <td>$ {{order.item_selling_price}}</td>
+					<td> $ {{order.item_cost}}</td>
 
                     <td>{{order.item_quantity}}</td>
 
@@ -35,6 +32,7 @@
 						{% csrf_token %}
 						<input type="hidden" name="btn_type" value="received_order">
 						<input type="hidden" name="order_id" value="{{order.id}}">
+						<input type="hidden" name="order_item_id" value="{{order.item_id}}">
 						<input type="hidden" name="item_name" value="{{order.item_name}}">
 						<input type="hidden" name="item_cost" value="{{order.item_cost}}">
 						<input type="hidden" name="item_selling_price" value="{{order.item_selling_price}}">
@@ -73,6 +71,7 @@
                             <h5>Are you sure to cancel {{order.item_name}}?</h5>
 							<input type="hidden" name="btn_type" value="cancel_order">
                             <input type="hidden" name="order_id" value="{{order.id}}">
+							<input type="hidden" name="order_item_id" value="{{order.item_id}}">
                             <input type="hidden" name="item_name" value="{{order.item_name}}">
 							<input type="hidden" name="item_cost" value="{{order.item_cost}}">
 							<input type="hidden" name="quantity" value="{{order.item_quantity}}">

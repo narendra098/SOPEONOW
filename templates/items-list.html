@@ -20,7 +20,7 @@
 			<tbody>
                 {% for item in items %}
 				<tr>
-					<td>{{item.item_id}}</td>
+					<td>{{item.id}}</td>
 
                     <td>{{item.item_name}} </td>
 
@@ -28,26 +28,26 @@
 
 					<td>$ {{item.item_selling_price}}</td>
 
-					<td>{{item.item_quantity_left}}</td>
+					<td>{{item.item_quantity}}</td>
 
 
 
 					<td style="display: flex">
 
-						<button id="{{item.item_id}}" style="margin: 4px ;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#view_item_{{item.item_id}}">
+						<button id="{{item.item_id}}" style="margin: 4px ;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#view_item_{{item.id}}">
 							View
 						</button>
                         
 						
-						<a style="height: 40px; margin: 4px;" type="button" class="btn btn-primary" href="{% url 'edit_item' item.item_id %}">
+						<a style="height: 40px; margin: 4px;" type="button" class="btn btn-primary" href="{% url 'edit_item' item.id %}">
 							Edit	
 						</a>
 
-						<a style="height: 40px; margin: 4px;" type="button" class="btn btn-primary" href="{% url 'order_item' item.item_id %}">
+						<a style="height: 40px; margin: 4px;" type="button" class="btn btn-primary" href="{% url 'order_item' item.id %}">
 							Order
 						</a>
 
-						<a style="height: 40px; margin: 4px;" type="button" class="btn btn-primary" href="{% url 'sell_item' item.item_id %}">
+						<a style="height: 40px; margin: 4px;" type="button" class="btn btn-primary" href="{% url 'sell_item' item.id %}">
 							Sell
 						</a>
 						
@@ -73,7 +73,7 @@
 							
 							<input type="hidden" name="form_type" value="view_item_form">
 							<h6>Id</h6>
-							<input class="form-control" type="text" name="edit_item_id" value="{{item.item_id}}" readonly>
+							<input class="form-control" type="text" name="edit_item_id" value="{{item.id}}" readonly>
 							<br>
 							<h6>Name</h6>
 							<input class="form-control" type="text" name="item_name" value="{{item.item_name}}" readonly>
@@ -82,7 +82,7 @@
 							<input class="form-control" type="text" name="item_cost" value="{{item.item_cost}}" readonly>
 							<br>
 							<h6>Quantity</h6>
-							<input class="form-control" type="text" name="item_quantity" value="{{item.item_quantity_left}}" readonly>
+							<input class="form-control" type="text" name="item_quantity" value="{{item.item_quantity}}" readonly>
 							<br>
 							<h6>quantity sold</h6>
 							<input class="form-control" type="text" name="quantity_sold" value="{{item.item_quantity_sold}}" readonly>

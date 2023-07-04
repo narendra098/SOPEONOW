@@ -1,15 +1,12 @@
+from decimal import Decimal
 from django.shortcuts import get_object_or_404, redirect, render
 from . models import Item
 from . forms import *
 from transactions.models import Transaction
+from orders.models import received_order
 
 
-
-
-# Create your views here.
-
-
-
+#view for rendering items list
 def item_list(request):
     
     items = Item.objects.all()        
@@ -18,47 +15,23 @@ def item_list(request):
     return render(request, 'items-list.html', context) 
 
 
-
+# view for creating new item
 def create_new_item(request):
     form = CreateNewItemForm(request.POST or None)
-
+    
     if form.is_valid():
-
-        order = form.save()
-      
-        order_id = order.id
-        item_name = order.item_name
-        item_cost = order.item_cost
-        item_quantity = order.item_quantity
-        item_selling_price = order.item_selling_price
-        amount = item_quantity*item_selling_price
-        
-        
-        transaction = Transaction(
-                        item_id=order_id, 
-                        item_name=item_name, 
-                        item_cost = item_cost, 
-                        item_quantity = item_quantity,
-                        transaction_amount = amount, 
-                        transaction_type = 'received'
-                        )
-        
-        transaction.save()
-
-        
+        form.save()     
         return redirect('/create-new-item')
-
-
 
     context = {'form':form}
 
     return render(request,'create-new-item.html', context)
 
 
-
+# view for editing item details
 def edit_item(request, item_id):
   
-    item = Item.objects.get(item_id=item_id)
+    item = Item.objects.get(id=item_id)
     
     form = EditItemForm(instance=item)  
 
@@ -85,9 +58,10 @@ def edit_item(request, item_id):
 
 
 
+# view for ordering quantity for an item
 def OrderItem(request, item_id):
 
-    item = Item.objects.get(item_id=item_id)
+    item = Item.objects.get(id=item_id)
 
     form = OrderItemForm(instance=item)
 
@@ -98,10 +72,31 @@ def OrderItem(request, item_id):
         form = OrderItemForm(request.POST, instance=item)
 
         if form.is_valid():
-            order_item_quantity = form.cleaned_data['order_item_quantity']
-            item.item_quantity_left += order_item_quantity
-            item.save()
-            form.save()
+            item_id = item_id
+            item_quantity = form.cleaned_data['order_item_quantity']
+            item_name = form.cleaned_data['item_name']
+             
+            #if form is valid pushing data into received orders  model
+            order = received_order(
+                item_id =item_id,
+                item_name = item_name,
+                item_cost = item.item_cost,
+                item_quantity = item_quantity,
+            )
+            order.save()
+
+            # then pushing data to transaction model with transaction type as buy, because we are buying(ordering) the item
+            transaction = Transaction(
+                item_id = item_id,
+                item_name = item_name,
+                item_cost = item.item_cost,
+                item_quantity = item_quantity,
+                transaction_amount = Decimal(item_quantity)*Decimal(item.item_cost),
+                transaction_type = 'buy'
+            )
+            transaction.save()       
+
+     
             return redirect('/item-list')
     
 
@@ -109,27 +104,41 @@ def OrderItem(request, item_id):
     return render(request, 'order_item.html', context)
 
 
+#view for selling an item with it's quantity
 def SellItem(request, item_id):
-    item = Item.objects.get(item_id=item_id)
+    item = Item.objects.get(id=item_id)
 
     if request.method == 'POST':
         form = SellItemForm(request.POST)
 
         if form.is_valid():
             item_quantity_selling = form.cleaned_data['item_quantity_selling']
-            
-            if item_quantity_selling <= item.item_quantity_left:
-                item.item_quantity_left -= item_quantity_selling
+
+            # if form is valid decreasing the item quantity
+            if item_quantity_selling <= item.item_quantity:
+                item.item_quantity -= item_quantity_selling
                 item.save()
+                    #then pushing data to transaction model with transaction type as 'sold'
+                transaction = Transaction(
+                item_id = item_id,
+                item_name = item.item_name,
+                item_cost = item.item_cost,
+                item_quantity = item_quantity_selling,
+                transaction_amount = Decimal(item_quantity_selling)*Decimal(item.item_cost),
+                transaction_type = 'sold'
+                )
+                transaction.save()
+
+
                 return redirect('/item-list')
                 
             else:
                 form.add_error('item_quantity_selling', "Quantity selling cannot be greater than available quantity.")
     else:
         form = SellItemForm(initial={
-            'item_id': item.item_id,
+            'item_id': item.id,
             'item_name': item.item_name,
-            'item_quantity_left': item.item_quantity_left,
+            'item_quantity': item.item_quantity,
         })
 
     context = {'form': form}

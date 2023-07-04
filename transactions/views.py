@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 from .models import Transaction
 
-# Create your views here.
+# view for showing all transactions
 def show_transactions(request):
     transactions = Transaction.objects.all()
     context = {'transactions':transactions}
