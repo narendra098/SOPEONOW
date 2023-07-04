@@ -1,0 +1,713 @@
+{% load static %}
+{% load seconds_to_hm %}
+<!DOCTYPE html>
+<html>
+    <head>
+    <link rel="stylesheet" href="{% static 'management_screen/homestyle.css' %}">
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    
+
+  <!-- Include ApexCharts library -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts@latest"></script>
+
+  <!-- Include ApexCharts CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@latest/dist/apexcharts.min.css">
+
+    </head>
+    <body>
+        <div class="nav-bar">
+            <div class="left">
+            <div class="menu-icon"><img src="{% static 'management_screen/icons/menu-icon.png' %}" /></div>
+            <div class="logo"><img src="{% static 'management_screen/icons/logo.png' %}"/></div>
+            <div class="title">Management Live</div>
+            </div>
+            
+            <div class="right" style="background-image: url('{% static "management_screen/icons/right-bg.png" %}');">
+                <div class="avatar">AB</div>
+                <div class="admissions"><span><img src="{% static 'management_screen/icons/admissions-icon.png' %}"/></span>Admissions</div>
+                <div class="home"><span><img src="{% static 'management_screen/icons/home-icon.png' %}"/></span>Home</div>
+            </div>
+         
+        </div>
+        
+        <div class="body-section">
+
+        <div class="side-navigation" style="width:120px; background: linear-gradient(148deg, #8B4367 0%, #343571 100%)";
+        ">
+            <img style="margin: 10px; margin-top: 20px;" src="{% static 'management_screen/icons/search-icon.png' %}" />
+            <img style="margin: 10px;" src="{% static 'management_screen/icons/funnel-icon.png' %}" />
+            <img style="margin: 10px;" src="{% static 'management_screen/icons/calc-icon.png' %}" />
+            <img style="margin: 10px;" src="{% static 'management_screen/icons/ambulance-icon.png' %}" />
+            <img style="margin: 10px;" src="{% static 'management_screen/icons/ambulance-icon.png' %}" />
+            <img style="margin: 10px;" src="{% static 'management_screen/icons/doctor-dress-icon.png' %}" />
+            <img style="margin: 10px;" src="{% static 'management_screen/icons/doctor-dress-icon.png' %}" />
+            <img style="margin: 10px;" src="{% static 'management_screen/icons/hospital-icon.png' %}" />
+            <img style="margin: 10px;" src="{% static 'management_screen/icons/mile-stone-icon.png' %}" />
+            <img style="margin: 10px;" src="{% static 'management_screen/icons/globe-icon.png' %}" />
+            <img style="margin: 10px;" src="{% static 'management_screen/icons/path-icon.png' %}" />
+            <img style="margin: 10px;" src="{% static 'management_screen/icons/path-1-icon.png' %}" />
+            <img style="margin: 10px;" src="{% static 'management_screen/icons/chart-icon.png' %}" />
+        </div>
+
+        <div class="key-metrics">
+            <div class="metrics-title">Key Metrics</div>
+
+
+      
+
+
+            <div class="metrics-child">
+                <div class="title-name">Queue to Registration</div>
+                <div class="main-title">Registration Time</div>
+                <div class="time"> <img src="{% static 'management_screen/icons/icon-clock.png' %}" style="margin-right: 30px; margin-left: 20px;"/>{% seconds_to_hm key_metrics.registration.time %}</span>
+                </div>
+            </div>
+
+            <div class="metrics-child">
+                <div class="title-name">Registration to Triage</div>
+                <div class="main-title">Time to Triage</div>
+                <div class="time"> <img src="{% static 'management_screen/icons/icon-clock.png' %}" style="margin-right: 30px; margin-left: 20px;"/>{% seconds_to_hm key_metrics.triage_done.time %}</span>
+                </div>
+            </div>
+
+            <div class="metrics-child">
+                <div class="title-name"> Triage to consult</div>
+                <div class="main-title">Time to Consult</div>
+                <div class="time"> <img src="{% static 'management_screen/icons/icon-clock.png' %}" style="margin-right: 30px; margin-left: 20px;"/>{% seconds_to_hm key_metrics.cons_done.time %}</span>
+                </div>
+            </div>
+
+            <div class="metrics-child">
+                <div class="title-name"> Triage End to Discharge</div>
+                <div class="main-title">In zone time</div>
+                <div class="time"> <img src="{% static 'management_screen/icons/icon-clock.png' %}" style="margin-right: 30px; margin-left: 20px;"/>{% seconds_to_hm key_metrics.in_zone.time %}</span>
+                </div>
+            </div>
+
+            <div class="metrics-child">
+                <div class="title-name"> Consultation to Discharge</div>
+                <div class="main-title">Treatment time</div>
+                <div class="time"> <img src="{% static 'management_screen/icons/icon-clock.png' %}" style="margin-right: 30px; margin-left: 20px;"/>{% seconds_to_hm key_metrics.treatment.time %}</span>
+                </div>
+            </div>
+
+            <div class="metrics-child">
+                <div class="title-name"> Lab Order Request to Processing</div>
+                <div class="main-title">Lab Processing Time</div>
+                <div class="time"> <img src="{% static 'management_screen/icons/icon-clock.png' %}" style="margin-right: 30px; margin-left: 20px;"/>02:34</span>
+                </div>
+            </div>
+
+            
+            <div class="metrics-child">
+                <div class="title-name"> Radiology Order Request to Processing</div>
+                <div class="main-title">Radiology Processing Time</div>
+                <div class="time"> <img src="{% static 'management_screen/icons/icon-clock.png' %}" style="margin-right: 30px; margin-left: 20px;"/>02:34</span>
+                </div>
+            </div>
+
+            
+            <div class="metrics-child">
+                <div class="title-name"> UCC Discharge to IP Bed Allotment</div>
+                <div class="main-title">IP Transfers <img src="{% static 'management_screen/icons/user-logo.png' }" style="margin-left: 80px; " /> 18</div>
+                <div class="time"> <img src="{% static 'management_screen/icons/icon-clock.png' %}" style="margin-right: 30px; margin-left: 20px;"/>{% seconds_to_hm key_metrics.ip_transfers.ipt_complete_time.time %}</span>
+                </div>
+            </div>
+
+            <div class="visits" style="background-color: rgba(103, 103, 149, 1);  height: 110px;width: 450px; border-radius: 10px; background-repeat: no-repeat;">
+                <div style="margin-left: 40px;">
+                   <p style="margin-left: 35px;">Total visits<p>
+                   <div style="background-color: aliceblue; width: 100px; height: 50px; margin-left: 15px; margin-top:-15px ; margin-bottom: 5px;"><p style=" text-align:center ; line-height: 50px; font-size: 30px ;">{{key_metrics.total.count}}</p></div>
+                </div>
+
+                <div style="margin-left: 100px;">
+                    <p style="margin-left: 40px;margin-top: 6px;">visit time</p>
+                    <p style="margin-top: -20px; font-size: 12px;">Registration to discharge</p>
+                    <div style="background-color: aliceblue; width: 100px; height: 50px; margin-top: -15px; margin-left: 10px;" ><p style="text-align: center;line-height: 50px; font-size: 30px;">{% seconds_to_hm completed.avg_act_tm %}</p></div>
+                </div>
+
+            </div>
+
+            <div class="finance">
+                <div style="display: flex; flex-direction: column ;  background: rgba(232, 217, 225, 0.30); ">   
+                    <div>Insurance</div> 
+                    <div style="display: flex; align-items: center; justify-content: center;line-height: 70px;">
+                    <div style="font-size: 30px; font-weight: bold;">{{completed.Payor.Insurance.count}} </div>
+                    <div style="font-size: 30px; font-weight: bold;" ><img src="{% static 'management_screen/icons/icon-clock.png' %}" style=" margin-right: 10px; margin-left: 20px; height: 20px; width: 20px;"/>{% seconds_to_hm completed.Payor.Insurance.time %}</div>
+                    </div>
+                </div>
+                <div style="display: flex; flex-direction: column ; ">   
+                    <div>Self Pay</div> 
+                    <div style="display: flex; align-items: center; justify-content: center;line-height: 70px;">
+                    <div style="font-size: 30px; font-weight: bold;">{{completed.Payor.Self_Pay.count}} </div>
+                    <div style="font-size: 30px; font-weight: bold;" ><img src="{% static 'management_screen/icons/icon-clock.png' %}" style=" margin-right: 10px; margin-left: 20px; height: 20px; width: 20px;"/>{% seconds_to_hm completed.Payor.Self_Pay.time %}</div>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column ;">   
+                    <div>International</div> 
+                    <div style="display: flex; align-items: center; justify-content: center;line-height: 70px;">
+                    <div style="font-size: 30px; font-weight: bold;">{{completed.Residency.International.count}}</div>
+                    <div style="font-size: 30px; font-weight: bold;" ><img src="{% static 'management_screen/icons/icon-clock.png' %}" style=" margin-right: 10px; margin-left: 20px; height: 20px; width: 20px;"/>{% seconds_to_hm completed.Residency.International.time %}</div>
+                    </div>
+                </div>
+                <div style="display: flex; flex-direction: column ; ">   
+                    <div>Local</div> 
+                    <div style="display: flex; align-items: center; justify-content: center;line-height: 70px;">
+                    <div style="font-size: 30px; font-weight: bold;">{{completed.Local.International.count}}</div>
+                    <div style="font-size: 30px; font-weight: bold;" ><img src="{% static 'management_screen/icons/icon-clock.png' %}" style=" margin-right: 10px; margin-left: 20px; height: 20px; width: 20px;"/>{% seconds_to_hm completed.Local.International.time %}</div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+        
+        <div class="stats" style="display: flex; flex-direction: column;">
+        
+            <div class="row-1" style=" display: flex;">
+                <div class="zone-table">
+
+                    <table class="zone-stats">
+                        <thead class="style-1">
+                            <tr class="style-2">
+                                <th rowspan="2" class="style-3">Zone Statistic</th>
+                                <th class="style-4">Green Zone</th>
+                                <th class="style-5">Yellow Zone</th>
+                                <th class="style-6">Red Zone</th>
+                            </tr>
+                        </thead>
+                        <tbody class="style-7">
+                            <tr class="style-8">
+                                <td rowspan="2" class="style-9">
+                                    <img class="style-10" src="{% static 'management_screen/icons/total_visits-icon.png' %}" width="24px" height="24px" alt="" srcset="" />
+                                    <div class="style-11"> Total Visits</div>
+                                </td>
+                                <td class="style-12">{{zonestats.green.total_visits_count}}</td>
+                                <td class="style-13">{{zonestats.yellow.total_visits_count}}</td>
+                                <td class="style-14">{{zonestats.red.total_visits_count}}</td>
+                            </tr>
+                            <tr class="style-8">
+                                <td rowspan="2" class="style-9">
+                                    <img class="style-10" src="{% static 'management_screen/icons/active-icon.png' %}" width="24px" height="24px" alt="" srcset="" />
+                                    <div class="style-11"> Active</div>
+                                </td>
+                                <td class="style-12">{{zonestats.green.active_count}}</td>
+                                <td class="style-13">{{zonestats.yellow.active_count}}</td>
+                                <td class="style-14">{{zonestats.red.total_visits_count}}</td>
+                            </tr>
+    
+                            <tr class="style-8">
+                                <td rowspan="2" class="style-9">
+                                    <img class="style-10" src="{% static 'management_screen/icons/discharged-con.png' %}" width="24px" height="24px" alt="" srcset="" />
+                                    <div class="style-11"> Discharged</div>
+                                </td>
+                                <td class="style-12">{{zonestats.green.discharge_count}}</td>
+                                <td class="style-13">{{zonestats.yellow.discharge_count}}</td>
+                                <td class="style-14">{{zonestats.red.discharge_count}}</td>
+                            </tr>
+    
+                            <tr class="style-15">
+                                <td rowspan="2" class="style-16">
+                                    <img class="style-17" src="{% static 'management_screen/icons/avg_triage_time-icon.png' %}" width="24px" height="24px" alt="" srcset="" />
+                                    <div class="style-18"> Average Triage Time</div>
+                                </td>
+                                <td class="style-19">
+                    
+                                    <div rowspan="2" class="style-20">
+                                        <img src="{% static 'management_screen/icons/icon-clock.png' %}" width="18px" height="18px" alt=""  /> 
+                                        <i class="style-21"></i> <span class="style-22"> {% seconds_to_hm zonestats.green.avg_triage_tm  %}</span>
+                                    </div>
+                                </td>
+                                <td class="style-23">
+                    
+                                    <div rowspan="2" class="style-24">
+                                        <img src="{% static 'management_screen/icons/icon-clock.png' %}" width="18px" height="18px" alt=""  /> 
+                                        <i class="style-25"></i> <span class="style-26">{% seconds_to_hm zonestats.yellow.avg_triage_tm  %}</span>
+                                    </div>
+                                </td>
+                                <td class="style-27">
+                    
+                                    <div rowspan="2" class="style-28">
+                                        <img src="{% static 'management_screen/icons/icon-clock.png' %}" width="18px" height="18px" alt=""  /> 
+                                        <i class="style-29"></i> <span class="style-44">{% seconds_to_hm zonestats.red.avg_triage_tm  %}</span>
+                                    </div>
+                                </td>
+                            </tr>
+    
+                            <tr class="style-15">
+                                <td rowspan="2" class="style-16">
+                                    <img class="style-17" src="{% static 'management_screen/icons/avg_hold_time-icon.png' %}" width="24px" height="24px" alt="" srcset="" />
+                                    <div class="style-18"> Average Zone Time</div>
+                                </td>
+                                <td class="style-19">
+                    
+                                    <div rowspan="2" class="style-20">
+                                        <img src="{% static 'management_screen/icons/icon-clock.png' %}" width="18px" height="18px" alt=""  /> 
+                                        <i class="style-21"></i> <span class="style-22"> {% seconds_to_hm zonestats.green.avg_triage_tm %}</span>
+                                    </div>
+                                </td>
+                                <td class="style-23">
+                    
+                                    <div rowspan="2" class="style-24">
+                                        <img src="{% static 'management_screen/icons/icon-clock.png' %}" width="18px" height="18px" alt=""  /> 
+                                        <i class="style-25"></i> <span class="style-26"> {% seconds_to_hm zonestats.yellow.avg_triage_tm %}</span>
+                                    </div>
+                                </td>
+                                <td class="style-27">
+                    
+                                    <div rowspan="2" class="style-28">
+                                        <img src="{% static 'management_screen/icons/icon-clock.png' %}" width="18px" height="18px" alt=""  /> 
+                                        <i class="style-29"></i> <span class="style-44">{% seconds_to_hm zonestats.red.avg_triage_tm %}</span>
+                                    </div>
+                                </td>
+                            </tr>
+    
+                            <tr class="style-15">
+                                <td rowspan="2" class="style-16">
+                                    <img class="style-17" src="{% static 'management_screen/icons/total_visits-icon.png' %}" width="24px" height="24px" alt="" srcset="" />
+                                    <div class="style-18"> Visit Time</div>
+                                </td>
+                                <td class="style-19">
+                    
+                                    <div rowspan="2" class="style-20">
+                                        <img src="{% static 'management_screen/icons/icon-clock.png' %}" width="18px" height="18px" alt=""  /> 
+                                        <i class="style-21"></i> <span class="style-22"> {% seconds_to_hm zonestats.green.avg_visit_tm %}</span>
+                                    </div>
+                                </td>
+                                <td class="style-23">
+                    
+                                    <div rowspan="2" class="style-24">
+                                        <img src="{% static 'management_screen/icons/icon-clock.png' %}" width="18px" height="18px" alt=""  /> 
+                                        <i class="style-25"></i> <span class="style-26"> {% seconds_to_hm zonestats.yellow.avg_visit_tm %}</span>
+                                    </div>
+                                </td>
+                                <td class="style-27">
+                    
+                                    <div rowspan="2" class="style-28">
+                                        <img src="{% static 'management_screen/icons/icon-clock.png' %}" width="18px" height="18px" alt=""  /> 
+                                        <i class="style-29"></i> <span class="style-44">{% seconds_to_hm zonestats.red.avg_visit_tm %}</span>
+                                    </div>
+                                </td>
+                            </tr>
+    
+                        </tbody>
+    
+                    </table>
+                    
+                </div>
+                
+                <div class="triage-by-interval" id="chart-4">Traige by Interval</div>
+    
+            </div>
+
+            <div class="row-2" style= "height: 300px; display: flex;">
+                <div class="triage-by-zone" id="chart-1" >Patients By Interval</div>
+                <div class="patients-by-interval" id="chart-2">Triage By Zone</div>
+                <div class="patients-by-doctor" id="chart-3">Patients By Doctor</div>
+
+          
+            </div>
+
+            <div class="row-3" style=" display: flex;">
+               
+                <div class="waiting-status" style="display: flex;flex-direction: column;align-items: center; height: auto; width: 200px;background-color: aliceblue;">
+                    <div style="font-size: 30px;">Current</div>     
+                    <div style="font-size: 20px;">Waiting Status</div>
+                    <img src="{% static 'management_screen/icons/waiting-room.png' %}" style="width: 140px; height: 150px; margin-top: 15px;" />
+                </div>
+               
+                <div class="For" style="width: 300px;" >
+                    <div>
+                    <div style="background: linear-gradient(180deg, rgba(84, 56, 100, 0.90) 0%, rgba(118, 96, 131, 0.90) 100%); height: 50px; "><span>For</span> <span style="font-size: 30px;">Triage</span></div>
+                    <div style="display: flex;align-items: center;background-color: aliceblue;height: 120px;">
+                        <div style="font-size: 30px; font-weight: bold; margin-left: 35px;"><img src="{% static 'management_screen/icons/user-logo.png' %}" style=" margin-right: 10px;height: 20px; width: 20px;"/>{{inprogress.pdTriage.count}}	</div>
+                        <div style="font-size: 30px; font-weight: bold;" ><img src="{% static 'management_screen/icons/icon-clock.png' %}" style=" margin-right: 10px; margin-left: 20px; height: 20px; width: 20px;"/>{% seconds_to_hm inprogress.pdTriage.time %}</div>
+                      
+                    </div>
+                    </div>
+    
+                    <div>
+                    <div style="background: linear-gradient(180deg, rgba(139, 67, 103, 0.80) 0%, rgba(139, 67, 103, 0.80) 100%);
+                    ; height: 50px; "><span>For</span> <span style="font-size: 30px;">Consultation</span></div>
+                    <div style="display: flex;align-items: center;background-color: aliceblue;height: 120px;">
+                        <div style="font-size: 30px; font-weight: bold; margin-left: 35px;"><img src="{% static 'management_screen/icons/user-logo.png' %}" style=" margin-right: 10px;height: 20px; width: 20px;"/>{{inprogress.pdConsultation.count}} </div>
+                        <div style="font-size: 30px; font-weight: bold;" ><img src="{% static 'management_screen/icons/icon-clock.png' %}" style=" margin-right: 10px; margin-left: 20px; height: 20px; width: 20px;"/>{% seconds_to_hm inprogress.pdConsultation.time %}</div>
+                      
+                    </div>
+                    </div>
+    
+    
+                </div>
+    
+                <div class="doctor-stats" style=" width: 350px;">
+                    <div style="background: linear-gradient(133deg, rgba(103, 103, 149, 0.56) 0%, rgba(103, 103, 149, 0.56) 0.01%, rgba(235, 235, 255, 0.70) 100%);
+                    ; height: 50px; "><span style="font-size: 30px;">Doctor Statistics</span></div>
+    
+                    <table id="docTable" style="background-color: white; table-layout: fixed;">
+                        <thead>
+                            <tr>
+                            <th>Doctor</th>
+                            <th>Patients</th>
+                            <th style="width: 100px;">Time</th>
+                            </tr>
+                         </thead>
+                        <tbody>
+                        {% for v in docstats %}	
+                        <tr>
+                        <td>{{v.doc_name}}</td>
+                        <td>{{v.count}}</td>
+                        <td> <span> <img src="{% static 'management_screen/icons/icon-clock.png' %}"/></span>{% seconds_to_hm v.avg_visit_tm  %}	</td>
+                        </tr>
+                       {%endfor %}
+                       </tbody>
+      
+                    </table>
+                   
+                </div>   
+    
+    
+
+     
+            </div>
+
+        </div>
+
+
+        <script>
+        var data = JSON.parse('{{jsondata|escapejs}}');
+         var series =data.graphs.AccidentEmergency.interval["barline-1"].y
+         console.log("0>>")
+        console.log(data.graphs.AccidentEmergency.interval["barline-1"].y[0]);
+        var options1 = {
+          series: [{
+          name: 'Total Visits',
+          type: 'column',
+          data: [440, 505, 414, 671, 227, 413, 201, 352, 752, 320, 257, 160]
+        }, {
+          name: 'Avg Time',
+          type: 'line',
+          data: [23, 42, 35, 27, 43, 22, 17, 31, 22, 22, 12, 16]
+        }],
+          chart: {
+          height: 250,
+          type: 'area',
+        },
+        stroke: {
+          width: [0, 4]
+        },
+        
+        dataLabels: {
+          enabled: true,
+          enabledOnSeries: [1]
+        },
+        labels: ['01 Jan 2001', '02 Jan 2001', '03 Jan 2001', '04 Jan 2001', '05 Jan 2001', '06 Jan 2001', '07 Jan 2001', '08 Jan 2001', '09 Jan 2001', '10 Jan 2001', '11 Jan 2001', '12 Jan 2001'],
+        xaxis: {
+          type: 'datetime'
+        },
+        yaxis: [{
+          title: {
+            text: '',
+          },
+        
+        }, {
+          opposite: true,
+          title: {
+            text: ''
+          }
+        }]
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart-1"), options1);
+        chart.render();
+
+            
+        var options2 = {
+          series: [{
+          name: 'TEAM A',
+          type: 'column',
+          data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30]
+        }, {
+          name: 'TEAM B',
+          type: 'area',
+          data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43]
+        }, {
+          name: 'TEAM C',
+          type: 'line',
+          data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39]
+        }],
+          chart: {
+          height: 250,
+          type: 'line',
+          stacked: false,
+        },
+        stroke: {
+          width: [0, 2, 5],
+          curve: 'smooth'
+        },
+        plotOptions: {
+          bar: {
+            columnWidth: '50%'
+          }
+        },
+        
+        fill: {
+          opacity: [0.85, 0.25, 1],
+          gradient: {
+            inverseColors: false,
+            shade: 'light',
+            type: "vertical",
+            opacityFrom: 0.85,
+            opacityTo: 0.55,
+            stops: [0, 100, 100, 100]
+          }
+        },
+        labels: ['01/01/2003', '02/01/2003', '03/01/2003', '04/01/2003', '05/01/2003', '06/01/2003', '07/01/2003',
+          '08/01/2003', '09/01/2003', '10/01/2003', '11/01/2003'
+        ],
+        markers: {
+          size: 0
+        },
+        xaxis: {
+          type: 'datetime'
+        },
+        yaxis: {
+          title: {
+            text: '',
+          },
+          min: 0
+        },
+        tooltip: {
+          shared: true,
+          intersect: false,
+          y: {
+            formatter: function (y) {
+              if (typeof y !== "undefined") {
+                return y.toFixed(0) + " points";
+              }
+              return y;
+        
+            }
+          }
+        }
+        };
+
+      
+
+        var chart = new ApexCharts(document.querySelector("#chart-2"), options2);
+        chart.render();
+
+
+        var options3 = {
+          series: [{
+          name: 'TEAM A',
+          type: 'area',
+          data: [44, 55, 31, 47, 31, 43, 26, 41, 31, 47, 33]
+        }, {
+          name: 'TEAM B',
+          type: 'line',
+          data: [55, 69, 45, 61, 43, 54, 37, 52, 44, 61, 43]
+        }],
+          chart: {
+          height: 250,
+          type: 'line',
+        },
+        stroke: {
+          curve: 'smooth'
+        },
+        fill: {
+          type:'solid',
+          opacity: [0.35, 1],
+        },
+        labels: ['Dec 01', 'Dec 02','Dec 03','Dec 04','Dec 05','Dec 06','Dec 07','Dec 08','Dec 09 ','Dec 10','Dec 11'],
+        markers: {
+          size: 0
+        },
+        yaxis: [
+          {
+            title: {
+              text: '',
+            },
+          },
+          {
+            opposite: true,
+            title: {
+              text: '',
+            },
+          },
+        ],
+        tooltip: {
+          shared: true,
+          intersect: false,
+          y: {
+            formatter: function (y) {
+              if(typeof y !== "undefined") {
+                return  y.toFixed(0) + " points";
+              }
+              return y;
+            }
+          }
+        }
+        };
+
+
+        var chart = new ApexCharts(document.querySelector("#chart-3"), options3);
+        chart.render();
+
+        var options4 = {
+          series: [{
+          name: 'Income',
+          type: 'column',
+          data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4.6]
+        }, {
+          name: 'Cashflow',
+          type: 'column',
+          data: [1.1, 3, 3.1, 4, 4.1, 4.9, 6.5, 8.5]
+        }, {
+          name: 'Revenue',
+          type: 'line',
+          data: [20, 29, 37, 36, 44, 45, 50, 58]
+        }],
+          chart: {
+          height: 250,
+          type: 'line',
+          stacked: false
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          width: [1, 1, 4]
+        },
+        title: {
+          text: '',
+          align: 'left',
+          offsetX: 110
+        },
+        xaxis: {
+          categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
+        },
+        yaxis: [
+          {
+            axisTicks: {
+              show: true,
+            },
+            axisBorder: {
+              show: true,
+              color: '#008FFB'
+            },
+            labels: {
+              style: {
+                colors: '#008FFB',
+              }
+            },
+            title: {
+              text: "",
+              style: {
+                color: '#008FFB',
+              }
+            },
+            tooltip: {
+              enabled: true
+            }
+          },
+          {
+            seriesName: 'Income',
+            opposite: true,
+            axisTicks: {
+              show: true,
+            },
+            axisBorder: {
+              show: true,
+              color: '#00E396'
+            },
+            labels: {
+              style: {
+                colors: '#00E396',
+              }
+            },
+            title: {
+              text: "",
+              style: {
+                color: '#00E396',
+              }
+            },
+          },
+          {
+            seriesName: 'Revenue',
+            opposite: true,
+            axisTicks: {
+              show: true,
+            },
+            axisBorder: {
+              show: true,
+              color: '#FEB019'
+            },
+            labels: {
+              style: {
+                colors: '#FEB019',
+              },
+            },
+            title: {
+              text: "",
+              style: {
+                color: '#FEB019',
+              }
+            }
+          },
+        ],
+        tooltip: {
+          fixed: {
+            enabled: true,
+            position: 'topLeft', // topRight, topLeft, bottomRight, bottomLeft
+            offsetY: 30,
+            offsetX: 60
+          },
+        },
+        legend: {
+          horizontalAlign: 'left',
+          offsetX: 40
+        }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart-4"), options4);
+        chart.render();
+
+
+      
+
+        $(document).ready(function () {
+      $('#docTable').DataTable({
+        "pageLength": 3,
+        "ordering": false,
+        "lengthChange": false,
+        "searching": true,
+        "info": false,
+        
+        language: {
+          paginate: {
+            previous: `<div id=${"previous"}><</div>`,
+            next: `<div  id=${"next"}>></div>`
+          }
+        }
+      });
+      $('#data.graphs.AccidentEmergency.interval["barline-1"].y').keyup(function () {
+        var table = $('#docTable').DataTable();
+        table.search($(this).val()).draw();
+      });
+    });
+       
+        </script>
+
+
+
+
+    </body>
+</html>

@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'inventory',
     'orders',
     'transactions',
+    'management_screen',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -119,10 +120,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS=[os.path.join(BASE_DIR,'home/static') ]
+STATICFILES_DIRS=[os.path.join(BASE_DIR,'home/static'), os.path.join(BASE_DIR,'management_screen/static')]
 STATIC_ROOT = os.path.join(BASE_DIR,'assets')
 
 
