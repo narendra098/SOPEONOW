@@ -121,6 +121,13 @@
               </a>
             </li>
 
+            <li class="menu-item">
+              <a href="{% url 'items_sold' %}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-layer-plus"></i>
+                <div data-i18n="Boxicons">Items sold</div>
+              </a>
+            </li>
+
             <!-- orders section -->
             <li class="menu-header small text-uppercase"><span class="menu-header-text">ORDERS</span></li>
            
@@ -160,12 +167,7 @@
               </a>
             </li>
             
-            <a href="{% url 'management' %}">
-            <li class="menu-header small text-uppercase">
-              <span class="menu-header-text">MANAGEMENT</span>
-            </li>
-          </a>
-
+          
          
 
           </ul>
@@ -202,6 +204,10 @@
                 </div>
               </div>
               <!-- /Search -->
+
+              <a class="btn btn-primary" style="margin-left: 400px;" href="{% url 'management' %}"  role="button">ManagementScreen</a>
+                
+             
 
               <ul class="navbar-nav flex-row align-items-center ms-auto">
                 <!-- Place this tag where you want the button to render. -->

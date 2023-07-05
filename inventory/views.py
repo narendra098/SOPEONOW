@@ -124,7 +124,7 @@ def SellItem(request, item_id):
                 item_name = item.item_name,
                 item_cost = item.item_cost,
                 item_quantity = item_quantity_selling,
-                transaction_amount = Decimal(item_quantity_selling)*Decimal(item.item_cost),
+                transaction_amount = Decimal(item_quantity_selling)*Decimal(item.item_selling_price),
                 transaction_type = 'sold'
                 )
                 transaction.save()
@@ -144,4 +144,11 @@ def SellItem(request, item_id):
     context = {'form': form}
     return render(request, 'sell-item.html', context)
   
+# view for showing all sold items   
+def sold_items(request):
+    # getting all the sold items from transaction model
+    items_sold = Transaction.objects.filter(transaction_type='sold')
 
+    context = {'items_sold':items_sold}
+
+    return render(request, 'items-sold.html', context)

@@ -1,0 +1,37 @@
+{% extends 'index.html' %}
+{% block content %}
+<br></br>
+<center>ITEMS SOLD</center>
+<br>
+		<table class = "table table-striped table-bordered" >
+			<thead class = "table-dark">
+				<tr>
+					<th> # Item id </th>
+					<th> Name</th>				
+                    <th>Quantity Sold</th>
+                    <th> Transaction Amount</th>                 
+				</tr>
+			</thead>
+			
+			<tbody>
+                {% for item in items_sold %}
+				<tr>
+					<td>{{item.item_id}}</td>
+
+                    <td>{{item.item_name}} </td>
+
+                    <td>{{item.item_quantity}}</td>
+
+                    <td>$ {{item.transaction_amount}}</td>
+
+
+				</tr>	
+
+                {% endfor %}
+			</tbody>
+		
+		</table>
+
+		
+	
+{% endblock %}

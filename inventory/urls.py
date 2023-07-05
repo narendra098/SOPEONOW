@@ -17,6 +17,9 @@ urlpatterns = [
      path('order_item/<int:item_id>', views.OrderItem, name='order_item'),
      
      #url for selling item
-     path('sell_item/<int:item_id>', views.SellItem, name='sell_item')
+     path('sell_item/<int:item_id>', views.SellItem, name='sell_item'),
+     
+     #url for items sold page
+     path('items_sold', views.sold_items, name='items_sold')
 
     ]
